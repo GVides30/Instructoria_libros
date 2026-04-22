@@ -119,6 +119,102 @@ docker compose exec laravel.test php artisan migrate:fresh
 2. Copiar access_token.
 3. Usar Bearer Token en las pruebas de endpoints.
 
+## 9) Uso del CRUD (paso a paso)
+
+Regla simple:
+
+- Los endpoints de auth no llevan token.
+- El resto de endpoints si llevan Authorization: Bearer TU_TOKEN.
+
+### Paso 1: crear usuario de acceso
+
+- POST /api/auth/register
+- Body:
+
+```json
+{
+	"first_name": "Ana",
+	"last_name": "Lopez",
+	"email": "ana@example.com",
+	"password": "12345678",
+	"password_confirmation": "12345678"
+}
+```
+
+### Paso 2: hacer login y copiar token
+
+- POST /api/auth/login
+- Body:
+
+```json
+{
+	"email": "ana@example.com",
+	"password": "12345678"
+}
+```
+
+### Paso 3: crear categorias y autores
+
+- POST /api/categorias
+
+```json
+{
+	"nombre": "Programacion"
+}
+```
+
+- POST /api/autores
+
+```json
+{
+	"nombre": "Gabriel Garcia Marquez"
+}
+```
+
+### Paso 4: crear libros
+
+- POST /api/libros
+
+```json
+{
+	"titulo": "Cien Anos de Soledad",
+	"año_publicacion": 1967,
+	"id_categoria": 1,
+	"autores": [1]
+}
+```
+
+### Paso 5: crear prestamos
+
+- POST /api/prestamos
+
+```json
+{
+	"id_usuario": 1,
+	"fecha_prestamo": "2026-04-22",
+	"fecha_devolucion": "2026-04-29",
+	"libros": [1]
+}
+```
+
+### Paso 6: listar, editar y eliminar
+
+- Listar:
+	- GET /api/categorias
+	- GET /api/autores
+	- GET /api/libros
+	- GET /api/prestamos
+- Editar:
+	- PUT /api/categorias/{categoria}
+	- PUT /api/autores/{autor}
+	- PUT /api/libros/{libro}
+	- PUT /api/prestamos/{prestamo}
+- Eliminar:
+	- DELETE /api/categorias/{categoria}
+	- DELETE /api/autores/{autor}
+	- DELETE /api/libros/{libro}
+	- DELETE /api/prestamos/{prestamo}
+
 ## Comandos utiles
 
 Ver contenedores:
